@@ -49,14 +49,14 @@ The table layout can be customised by passing several keyword arguments
 to ``Table.__init__``.
 
 align
-    You can specifiy the alignment of the table (``'l'``, ``'r'``, ``'c'``). 
-    **Default:** ``'l'``
+    You can specifiy the alignment of the table ('l', 'r', 'c'). 
+    **Default: 'l'**
 padding
     If you need a wider table you can increase the padding. 
-    **Default:** ``2``
+    **Default: 2**
 floatprec
     Every float value is converted to ``str`` with this precision.
-    **Default:** ``2``
+    **Default: 2**
 
 
 Further Examples

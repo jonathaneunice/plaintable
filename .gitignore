@@ -9,3 +9,4 @@ pynote-export
 html
 doctrees
 man
+*.egg-info

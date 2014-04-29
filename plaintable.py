@@ -1,15 +1,20 @@
+__version__ = '0.1'
+__license__ = 'MIT'
+__copyright__ = '(c) 2014 Stefan Tatschner <stefan@sevenbyte.org>'
+
+
 class Table:
 
     THEMES = {'simple': {'header_overline' : '',
                          'header_underline': '-',
-                         'footer_overline' : '',
+                        'footer_overline' : '',
                          'footer_underline': ''},
               'plain':  {'header_overline' : '',
                          'header_underline': '',
                          'footer_overline' : '',
                          'footer_underline': ''}}
 
-    def __init__(self, data, headline=None, align='l', padding=2, floatprec=2, 
+    def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
                  theme='simple'):
         data = data
         self.align = align
