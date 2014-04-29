@@ -10,7 +10,9 @@ Every data item is to be converted to string automatically.
 Usage
 -----
 
-Data with headline::
+Data with headline
+
+.. code-block:: pycon
 
     >>> from plaintable import Table
     >>> data = [[1, 2, 3, 4, 5], 
@@ -27,7 +29,9 @@ Data with headline::
     a     b     c      d     e      
     1.00  2.00  1.50   4.25  10.50
 
-Data without headline::
+Data without headline
+
+.. code-block:: pycon
 
      >>> from plaintable import Table
      >>> data = [[1, 2, 3, 4, 5], 
@@ -62,7 +66,7 @@ floatprec
 Further Examples
 ----------------
 
-::
+.. code-block:: pycon
 
     >>> from plaintable import Table
     >>> data = [[1, 2, 3, 4, 5],
@@ -70,6 +74,7 @@ Further Examples
     ...         ['a', 'b', 'c', 'd', 'e'],
     ...         ['a', 'b', 'c', 'd', 'e'],
     ...         [1.0, 2.0, 1.5, 4.25, 10.50]]
+    >>> headline = ['one', 'two', 'three', 'four', 'five']
     >>> table = Table(data, headline, align='r', padding=4, floatprec=4)
     >>> print(table)
            one       two     three      four       five
