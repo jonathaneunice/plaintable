@@ -1,0 +1,11 @@
+*~
+*.sublime-workspace
+__pycache__
+build
+dist
+MANIFEST
+*.pyc
+pynote-export
+html
+doctrees
+man
