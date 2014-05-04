@@ -1,3 +1,5 @@
+from datetime import datetime
+
 __version__ = '0.1'
 __license__ = 'MIT'
 __copyright__ = '(c) 2014 Stefan Tatschner <stefan@sevenbyte.org>'
@@ -15,11 +17,12 @@ class Table:
                          'footer_underline': ''}}
 
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
-                 theme='simple'):
+                 datetimefs='%Y-%m-%d %H:%M', theme='simple'):
         data = data
         self.align = align
         self.padding = padding
         self.floatprec = floatprec
+        self.datetimefs = datetimefs
         self.theme = theme
 
         data = self._normalize(data)
@@ -45,6 +48,8 @@ class Table:
                 if isinstance(col, float):
                     format_str = '{{:.{}f}}'.format(self.floatprec)
                     item = format_str.format(col)
+                elif isinstance(col, datetime):
+                    item = col.strftime(self.datetimefs)
                 else:
                     item = str(col)
                 norm_row.append(item)
