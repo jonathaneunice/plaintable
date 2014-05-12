@@ -61,6 +61,12 @@ padding
 floatprec
     Every float value is converted to ``str`` with this precision.
     **Default: 2**
+datetimefs
+    Specifies the datetime formatstring. Any datetime object is converted
+    to a string refering to this formatstring; see also here_. 
+    **Default:** ``%Y-%m-%d %H:%M``
+
+.. _here: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior 
 
 
 Further Examples
