@@ -27,15 +27,14 @@ class Table:
 
         data = self._normalize(data)
         self.cols = list(zip(*data))
-        # At first get the longest value in a column, then calculate its length.
-        self._col_widths = [len(max(col, key=len)) for col in self.cols]
+        self._col_widths = self._get_col_widths()
 
         if headline:
             # Append the table to header and update cols.
             d = self._get_header(headline)
             d.extend(data)
             self.cols = list(zip(*d))
-            self._col_widths = [len(max(col, key=len)) for col in self.cols]
+            self._col_widths = self._get_col_widths()
 
         #self._add_footer()
         self.cols = self._align_cols()
