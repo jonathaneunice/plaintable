@@ -9,7 +9,7 @@ class Table:
 
     THEMES = {'simple': {'header_overline' : '',
                          'header_underline': '-',
-                        'footer_overline' : '',
+                         'footer_overline' : '',
                          'footer_underline': ''},
               'plain':  {'header_overline' : '',
                          'header_underline': '',
