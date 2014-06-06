@@ -1,4 +1,5 @@
 from datetime import datetime
+import itertools
 
 __version__ = '0.1'
 __license__ = 'MIT'
@@ -89,7 +90,10 @@ class Table:
         header_overline = []
         header_underline = []
 
-        for width in self._col_widths:
+        header_widths = map(len, headline)
+        widths = itertools.izip_longest(header_widths, self._col_widths, fillvalue=0)
+        for header_width, col_width in widths:
+            width = max(header_width, col_width)
             if self.THEMES[self.theme]['header_overline']:
                 item = self.THEMES[self.theme]['header_overline'] * width
                 header_overline.append(item)
