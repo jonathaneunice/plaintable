@@ -15,6 +15,10 @@ class Table:
               'plain':  {'header_overline' : '',
                          'header_underline': '',
                          'footer_overline' : '',
+                         'footer_underline': ''},
+              'rst':    {'header_overline' : '=',
+                         'header_underline': '=',
+                         'footer_overline' : '=',
                          'footer_underline': ''}}
 
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
