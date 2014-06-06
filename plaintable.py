@@ -93,7 +93,7 @@ class Table:
             if self.THEMES[self.theme]['header_overline']:
                 item = self.THEMES[self.theme]['header_overline'] * width
                 header_overline.append(item)
-            elif self.THEMES[self.theme]['header_underline']:
+            if self.THEMES[self.theme]['header_underline']:
                 item = self.THEMES[self.theme]['header_underline'] * width
                 header_underline.append(item)
 
@@ -108,4 +108,3 @@ class Table:
         table = [''.join(col) for col in zip(*self.cols)]
         table = '\n'.join(table)
         return table
-
