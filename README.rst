@@ -61,6 +61,9 @@ padding
 floatprec
     Every float value is converted to ``str`` with this precision.
     **Default: 2**
+header_padding
+    Adds extra spaces around header fields. 
+    **Default: 0**
 datetimefs
     Specifies the datetime formatstring. Any datetime object is converted
     to a string refering to this formatstring; see also here_. 

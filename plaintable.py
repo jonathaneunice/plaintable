@@ -25,7 +25,7 @@ class Table:
                          'footer_underline': ''}}
 
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
-                 datetimefs='%Y-%m-%d %H:%M', theme='simple'):
+                 header_padding=0, datetimefs='%Y-%m-%d %H:%M', theme='simple'):
         data = data
         self.align = align
         self.padding = padding
@@ -34,14 +34,17 @@ class Table:
         self.theme = theme
 
         data = self._normalize(data)
-        self.cols = list(zip(*data))
+        self.cols = list(zip_longest(*data, fillvalue=''))
         self._col_widths = self._get_col_widths()
 
         if headline:
+            if header_padding:
+                padding_str = ' ' * header_padding
+                headline = ['{0}{1}{0}'.format(padding_str, col) for col in headline]
             # Append the table to header and update cols.
             d = self._get_header(headline)
             d.extend(data)
-            self.cols = list(zip(*d))
+            self.cols = list(zip_longest(*d, fillvalue=''))
             self._col_widths = self._get_col_widths()
 
         #self._add_footer()
