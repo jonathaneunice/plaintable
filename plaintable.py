@@ -1,5 +1,8 @@
 from datetime import datetime
-import itertools
+try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
 
 __version__ = '0.1'
 __license__ = 'MIT'
@@ -95,7 +98,7 @@ class Table:
         header_underline = []
 
         header_widths = map(len, headline)
-        widths = itertools.izip_longest(header_widths, self._col_widths, fillvalue=0)
+        widths = zip_longest(header_widths, self._col_widths, fillvalue=0)
         for header_width, col_width in widths:
             width = max(header_width, col_width)
             if self.THEMES[self.theme]['header_overline']:
