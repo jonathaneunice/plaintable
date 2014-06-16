@@ -68,8 +68,7 @@ class Table:
 
     def _get_col_widths(self):
         # At first get the longest value in a column, then calculate its length.
-        widths = [len(max(col, key=len)) for col in self.cols]
-        return widths
+        return [len(max(col, key=len)) for col in self.cols]
 
     def _align_cols(self):
         al_cols = []
