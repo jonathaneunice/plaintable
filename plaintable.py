@@ -1,4 +1,6 @@
 from datetime import datetime
+
+# Python 2.7 fixes
 try:
     from itertools import zip_longest
 except ImportError:
@@ -11,29 +13,25 @@ __copyright__ = '(c) 2014 Stefan Tatschner <stefan@sevenbyte.org>'
 
 class Table:
 
-    THEMES = {'simple': {'header_overline' : '',
+    THEMES = {'simple': {'header_overline':  '',
                          'header_underline': '-',
-                         'footer_overline' : '',
-                         'footer_underline': ''},
-              'plain':  {'header_overline' : '',
+                         'bottom_line':      ''},
+              'plain':  {'header_overline':  '',
                          'header_underline': '',
-                         'footer_overline' : '',
-                         'footer_underline': ''},
-              'rst':    {'header_overline' : '=',
+                         'bottom_line':      ''},
+              'rst':    {'header_overline':  '=',
                          'header_underline': '=',
-                         'footer_overline' : '=',
-                         'footer_underline': ''}}
+                         'bottom_line':      '='}}
 
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
                  header_padding=0, datetimefs='%Y-%m-%d %H:%M', theme='simple'):
-        data = data
         self.align = align
         self.padding = padding
         self.floatprec = floatprec
         self.datetimefs = datetimefs
         self.theme = theme
-
         data = self._normalize(data)
+
         self.cols = list(zip_longest(*data, fillvalue=''))
         self._col_widths = self._get_col_widths()
 
@@ -47,21 +45,22 @@ class Table:
             self.cols = list(zip_longest(*d, fillvalue=''))
             self._col_widths = self._get_col_widths()
 
-        #self._add_footer()
+        # if self.THEME['bottom_line']:
+
         self.cols = self._align_cols()
 
     def _normalize(self, data):
         norm_data = []
         for row in data:
             norm_row = []
-            for col in row:
-                if isinstance(col, float):
+            for col_item in row:
+                if isinstance(col_item, float):
                     format_str = '{{:.{}f}}'.format(self.floatprec)
-                    item = format_str.format(col)
-                elif isinstance(col, datetime):
-                    item = col.strftime(self.datetimefs)
+                    item = format_str.format(col_item)
+                elif isinstance(col_item, datetime):
+                    item = col_item.strftime(self.datetimefs)
                 else:
-                    item = str(col)
+                    item = str(col_item)
                 norm_row.append(item)
             norm_data.append(norm_row)
         return norm_data
