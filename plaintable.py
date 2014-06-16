@@ -86,8 +86,7 @@ class Table:
                 elif self.align == 'c':
                     format_str = '{{:^{}}}'.format(pad_width)
                 else:
-                    print('Error: Wrong alignment!')
-                    exit(1)
+                    raise RuntimeError('Error: Wrong alignment!')
 
                 al_item = format_str.format(item)
                 al_col.append(al_item)

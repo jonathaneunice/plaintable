@@ -12,6 +12,11 @@ dates = [[datetime(2000, 1, 1)],
 headline = ['one', 'two', 'three', 'four']
 
 
+def test_wrong_alignment():
+    with pytest.raises(RuntimeError):
+        table = plaintable.Table(data, align='fail')
+
+
 def test_data_defaults():
     table = plaintable.Table(data)
     assert str(table) == ('1     2     3     4     \n'
