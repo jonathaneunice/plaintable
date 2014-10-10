@@ -154,6 +154,6 @@ class Table:
         return footer
 
     def __str__(self):
-        table = [''.join(line) for line in self.data]
+        table = [''.join(line).strip() for line in self.data]
         table = '\n'.join(table)
         return table
