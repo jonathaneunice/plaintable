@@ -67,7 +67,7 @@ class Table:
             columns = list(zip(*data))
             widths = self._get_widths(columns)
 
-        # Align columns and then transpose it again to get back the table.
+        # Align columns and then transpose it again to get the table back.
         self.data = list(zip(*self._align(columns, widths)))
 
     def _normalize(self, data):
@@ -90,12 +90,9 @@ class Table:
 
     @staticmethod
     def _get_widths(columns):
-        """Gets the max width of each column.
-
-        At first find the longest value in a column,
-        then calculate its length.
-
-        """
+        """Gets the max width of each column."""
+        # At first find the longest value in
+        # a column, then calculate its length.
         return [len(max(column, key=len)) for column in columns]
 
     def _align(self, columns, widths):
