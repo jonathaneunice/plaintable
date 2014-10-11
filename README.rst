@@ -10,8 +10,6 @@ floatprecision. Every data item is to be converted to string automatically.
 Usage
 -----
 
-Data with headline
-
 .. code-block:: pycon
 
     >>> from plaintable import Table
@@ -31,24 +29,6 @@ Data with headline
     a     b     c      d     e
     1.00  2.00  1.50   4.25  10.50
 
-Data without headline
-
-.. code-block:: pycon
-
-     >>> from plaintable import Table
-     >>> data = [
-     ...    [1, 2, 3, 4, 5],
-     ...    [10, 11, 12, 13, 14],
-     ...    ['a', 'b', 'c', 'd', 'e'],
-     ...    [1.0, 2.0, 1.5, 4.25, 10.50],
-     ...]
-     >>> table = Table(data)
-     >>> print(table)
-     1     2     3     4     5
-     10    11    12    13    14
-     a     b     c     d     e
-     1.00  2.00  1.50  4.25  10.50
-
 
 Customise
 ---------
@@ -56,6 +36,11 @@ Customise
 The table layout can be customised by passing several keyword arguments
 to ``Table.__init__()``.
 
+headline
+    A list of strings which will appear as column headers. This argument
+    is optional.
+
+    **Default: None**
 align
     You can specifiy the alignment of the table ('l', 'r', 'c').
 
@@ -92,7 +77,7 @@ Further Examples
     ...    [10, 11, 12, 13, 14],
     ...    ['a', 'b', 'c', 'd', 'e'],
     ...    [1.0, 2.0, 1.5, 4.25, 10.50],
-    ...]
+    ... ]
     >>> headline = ['one', 'two', 'three', 'four', 'five']
     >>> table = Table(data, headline, align='r', padding=4, floatprec=4)
     >>> print(table)
@@ -102,3 +87,56 @@ Further Examples
             10        11        12        13         14
              a         b         c         d          e
         1.0000    2.0000    1.5000    4.2500    10.5000
+
+
+.. code-block:: pycon
+
+    >>> from plaintable import Table
+    >>> data = [
+    ...    [1, 2, 3, 4, 5],
+    ...    [10, 11, 12, 13, 14],
+    ...    ['a', 'b', 'c', 'd', 'e'],
+    ...    [1.0, 2.0, 1.5, 4.25, 10.50],
+    ... ]
+    >>> table = Table(data)
+    >>> print(table)
+    1     2     3     4     5
+    10    11    12    13    14
+    a     b     c     d     e
+    1.00  2.00  1.50  4.25  10.50
+
+
+.. code-block:: pycon
+
+    >>> from plaintable import Table
+    >>> data = [
+    ...    [1, 2, 3, 4, 5],
+    ...    [10, 11, 12, 13, 14],
+    ...    ['a', 'b', 'c', 'd', 'e'],
+    ...    [1.0, 2.0, 1.5, 4.25, 10.50],
+    ... ]
+    >>> table = Table(data, padding=4)
+    >>> print(table)
+    1       2       3       4
+    10      11      12      13
+    a       b       c       d
+    1.00    2.00    1.50    4.25
+
+
+.. code-block:: pycon
+
+    >>> from plaintable import Table
+    >>> data = [
+    ...    [1, 2, 3, 4, 5],
+    ...    [10, 11, 12, 13, 14],
+    ...    ['a', 'b', 'c', 'd', 'e'],
+    ...    [1.0, 2.0, 1.5, 4.25, 10.50],
+    ... ]
+    >>> table = Table(data, header_padding=4)
+    >>> print(table)
+    one          two          three          four
+    -----------  -----------  -------------  ------------
+    1            2            3              4
+    10           11           12             13
+    a            b            c              d
+    1.00         2.00         1.50           4.25
