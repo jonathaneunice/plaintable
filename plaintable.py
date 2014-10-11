@@ -33,7 +33,8 @@ class Table:
     }
 
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
-                 header_padding=0, datetimefs='%Y-%m-%d %H:%M', theme='simple'):
+                 header_padding=0, datetimefs='%Y-%m-%d %H:%M',
+                 theme='simple'):
         self.align = align
         self.padding = padding
         self.floatprec = floatprec
@@ -50,7 +51,8 @@ class Table:
         if headline:
             if header_padding:
                 padding_str = ' ' * header_padding
-                headline = ['{0}{1}{0}'.format(padding_str, col) for col in headline]
+                headline = ['{0}{1}{0}'.format(padding_str, col)
+                            for col in headline]
 
             # Prepend the header to the table and update columns.
             header = self._get_header(headline, widths)
@@ -151,6 +153,9 @@ class Table:
         return footer
 
     def __str__(self):
-        table = [''.join(line).strip() for line in self.data]
+        if self.align != 'l':
+            table = [''.join(line) for line in self.data]
+        else:
+            table = [''.join(line).strip() for line in self.data]
         table = '\n'.join(table)
         return table
