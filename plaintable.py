@@ -33,7 +33,7 @@ class Table:
     }
 
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
-                 header_padding=0, datetimefs='%Y-%m-%d %H:%M',
+                 truncate=True, header_padding=0, datetimefs='%Y-%m-%d %H:%M',
                  theme='simple'):
         self.align = align
         self.padding = padding
@@ -44,8 +44,11 @@ class Table:
         # Use a deque to be able to easily prepend the table header.
         data = deque(self._normalize(data))
         # Transpose data to get max column widths.
-        # Use zip_longest to fill empty fields.
-        columns = list(zip_longest(*data, fillvalue=''))
+        # Take care of zip and zip_longest, see #8.
+        if truncate:
+            columns = list(zip(*data))
+        else:
+            columns = list(zip_longest(*data, fillvalue=''))
         widths = self._get_widths(columns)
 
         if headline:
@@ -60,13 +63,21 @@ class Table:
             # The series of left appends results in reversing the
             # order of elements in the iterable argument.
             data.extendleft(reversed(header))
-            columns = list(zip(*data))
+            # See #8.
+            if truncate:
+                columns = list(zip(*data))
+            else:
+                columns = list(zip_longest(*data, fillvalue=''))
             widths = self._get_widths(columns)
 
         if self.THEMES[self.theme]['footer_line']:
             footer = self._get_footer(widths)
             data.append(footer)
-            columns = list(zip(*data))
+            # See #8.
+            if truncate:
+                columns = list(zip(*data))
+            else:
+                columns = list(zip_longest(*data, fillvalue=''))
             widths = self._get_widths(columns)
 
         # Align columns and then transpose it again to get the table back.

@@ -41,6 +41,11 @@ headline
     is optional.
 
     **Default: None**
+truncate
+    Tell plaintable to truncate columns which do not have any headline,
+    see #8 for further information.
+
+    **Default: True**
 align
     You can specifiy the alignment of the table ('l', 'r', 'c').
 
