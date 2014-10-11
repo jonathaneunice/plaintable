@@ -7,7 +7,7 @@ try:
 except ImportError:
     from itertools import izip_longest as zip_longest
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __license__ = 'MIT'
 __copyright__ = '(c) 2014 Stefan Tatschner <stefan@sevenbyte.org>'
 
