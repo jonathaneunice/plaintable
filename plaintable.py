@@ -35,13 +35,14 @@ class Table:
     def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
                  truncate=True, header_padding=0, datetimefs='%Y-%m-%d %H:%M',
                  theme='simple'):
+        # TODO: Are these attributes needed?
         self.align = align
         self.padding = padding
         self.floatprec = floatprec
         self.datetimefs = datetimefs
         self.theme = theme
 
-        # Use a deque to be able to easily prepend the table header.
+        # Use a deque to be able to prepend the table header easily.
         data = deque(self._normalize(data))
         # Transpose data to get max column widths.
         # Take care of zip and zip_longest, see #8.
