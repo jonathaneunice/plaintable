@@ -22,4 +22,5 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    keywords='table development')
+    keywords='table development'
+)
