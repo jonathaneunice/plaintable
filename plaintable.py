@@ -9,7 +9,7 @@ except ImportError:
 
 __version__ = '0.1.1'
 __license__ = 'MIT'
-__copyright__ = '(c) 2014 Stefan Tatschner <stefan@sevenbyte.org>'
+__copyright__ = '(c) 2014-2016 Stefan Tatschner <rumpelsepp@sevenbyte.org>'
 
 
 class Table:
