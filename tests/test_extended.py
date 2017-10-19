@@ -12,6 +12,28 @@ data = [
 headline = ['one', 'two', 'three', 'four']
 
 
+def test_incremental():
+
+    table = plaintable.Table()
+    for row in data:
+        table.append(row)
+    assert str(table) == (
+        '1     2     3     4\n'
+        '10    11    12    13\n'
+        'a     b     c     d\n'
+        '1.00  2.00  1.50  4.25'
+    )
+    table.headline = headline
+    assert str(table) == (
+        'one   two   three  four\n'
+        '----  ----  -----  ----\n'
+        '1     2     3      4\n'
+        '10    11    12     13\n'
+        'a     b     c      d\n'
+        '1.00  2.00  1.50   4.25'
+    )
+
+
 def test_data_append():
     table = plaintable.Table(data)
     assert str(table) == (
