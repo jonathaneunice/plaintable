@@ -38,7 +38,7 @@ class Table:
                  truncate=True, header_padding=0, datetimefs='%Y-%m-%d %H:%M',
                  theme='simple'):
 
-        self.data = data[:] or []
+        self.data = [] if data is None else data[:]
         self.headline = headline
         self.align = align
         self.padding = padding
