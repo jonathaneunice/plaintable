@@ -17,8 +17,9 @@ headline = ['one', 'two', 'three', 'four']
 
 
 def test_wrong_alignment():
-    with pytest.raises(RuntimeError):
+    with pytest.raises(ValueError):
         table = plaintable.Table(data, align='fail')
+        str(table)
 
 
 def test_data_defaults():

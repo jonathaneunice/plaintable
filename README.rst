@@ -1,11 +1,11 @@
 plaintable
 ==========
 
-Plaintable is a very simple library to build plain text tables. It has been
-created to provide a very lightweight and clear interface for generating plain
-text tables. Some data can be customized e.g. alignment, padding and
-floatprecision. Every data item is to be converted to string automatically.
+Plaintable is a simple library to build plain text tables. It has a clear,
+Pythonic programming interface (API).
 
+Some formatting attributes such as alignment, padding, and
+floating point precision can be customized.
 
 Usage
 -----
@@ -69,6 +69,44 @@ datetimefs
     **Default:** ``%Y-%m-%d %H:%M``
 
 .. _here: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
+
+
+Incremental Construction
+------------------------
+
+As of version 0.2, it is possible to incrementally construct a table. This is handy
+if one is reading each line from a CSV file, say, or a database connection.
+
+.. code-block:: pycon
+
+    >>> from plaintable import Table
+    >>> data = [
+    ...     [1, 2, 3, 4, 5],
+    ...     [10, 11, 12, 13, 14],
+    ...     ['a', 'b', 'c', 'd', 'e'],
+    ...     [1.0, 2.0, 1.5, 4.25, 10.50],
+    ... ]
+    >>> table = Table(headline=['one', 'two', 'three', 'four', 'five'])
+    >>> for row in data:
+    ...     table.append(row)
+    >>> print(table)
+    one   two   three  four  five
+    ----  ----  -----  ----  -----
+    1     2     3      4     5
+    10    11    12     13    14
+    a     b     c      d     e
+    1.00  2.00  1.50   4.25  10.50
+
+Existing tables can have data added to via ``append``, ``extend``, or ``insert``
+operations, just like a Python ``list``. In fact, since table data is stored as
+a list (in ``table.data``), any manipulation operations you can perform on a
+list are possible, though only the most common ones are exposed as direct
+``Table`` methods.
+
+Table formatting is deferred until the moment a string representation of the
+table is requested, e.g. through ``str(table)`` or ``print(table)``. One
+consequence is that if you print a table, then add data and re-print, the column
+widths may grow as subsequent prints accomodate wider data elements.
 
 
 Further Examples

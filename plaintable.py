@@ -1,4 +1,3 @@
-from collections import deque
 from datetime import datetime
 
 # Python 2.7 fixes
@@ -7,9 +6,12 @@ try:
 except ImportError:
     from itertools import izip_longest as zip_longest
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 __license__ = 'MIT'
 __copyright__ = '(c) 2014-2016 Stefan Tatschner <rumpelsepp@sevenbyte.org>'
+
+
+ALIGNMENT = { 'l': '<', 'r': '>', 'c': '^' }
 
 
 class Table:
@@ -32,40 +34,51 @@ class Table:
         },
     }
 
-    def __init__(self, data, headline=None, align='l', padding=2, floatprec=2,
+    def __init__(self, data=None, headline=None, align='l', padding=2, floatprec=2,
                  truncate=True, header_padding=0, datetimefs='%Y-%m-%d %H:%M',
                  theme='simple'):
-        # TODO: Are these attributes needed?
+
+        self.data = data[:] or []
+        self.headline = headline
         self.align = align
         self.padding = padding
         self.floatprec = floatprec
+        self.truncate = truncate
+        self.header_padding = header_padding
         self.datetimefs = datetimefs
         self.theme = theme
 
-        # Use a deque to be able to prepend the table header easily.
-        data = deque(self._normalize(data))
+    def _render(self):
+        """
+        Delay rendering until the table is displayed.
+        """
         # Transpose data to get max column widths.
         # Take care of zip and zip_longest, see #8.
-        if truncate:
+        data = self._normalize(self.data)
+
+        if self.truncate:
             columns = list(zip(*data))
         else:
             columns = list(zip_longest(*data, fillvalue=''))
         widths = self._get_widths(columns)
 
-        if headline:
-            if header_padding:
-                padding_str = ' ' * header_padding
+        if self.headline:
+            if self.header_padding:
+                padding_str = ' ' * self.header_padding
                 headline = ['{0}{1}{0}'.format(padding_str, col)
-                            for col in headline]
+                            for col in self.headline]
+            else:
+                headline = self.headline
 
             # Prepend the header to the table and update columns.
             header = self._get_header(headline, widths)
             # We have to use reversed; from docs.python.org:
             # The series of left appends results in reversing the
             # order of elements in the iterable argument.
-            data.extendleft(reversed(header))
+            for hrow in reversed(header):
+                data.insert(0, hrow)
             # See #8.
-            if truncate:
+            if self.truncate:
                 columns = list(zip(*data))
             else:
                 columns = list(zip_longest(*data, fillvalue=''))
@@ -75,14 +88,21 @@ class Table:
             footer = self._get_footer(widths)
             data.append(footer)
             # See #8.
-            if truncate:
+            if self.truncate:
                 columns = list(zip(*data))
             else:
                 columns = list(zip_longest(*data, fillvalue=''))
             widths = self._get_widths(columns)
 
         # Align columns and then transpose it again to get the table back.
-        self.data = list(zip(*self._align(columns, widths)))
+        rendered = list(zip(*self._align(columns, widths)))
+
+        if self.align != 'l':
+            table = [''.join(line) for line in rendered]
+        else:
+            table = [''.join(line).strip() for line in rendered]
+        table = '\n'.join(table)
+        return table
 
     def _normalize(self, data):
         """Converts the given data to strings for usage in a table"""
@@ -90,10 +110,9 @@ class Table:
         for row in data:
             norm_row = []
             for column in row:
-                # Build custom formatstrings for specific objects.
+                # Use customer formmaters for float and datetime objects.
                 if isinstance(column, float):
-                    format_str = '{{:.{}f}}'.format(self.floatprec)
-                    item = format_str.format(column)
+                    item = '{:.{}f}'.format(column, self.floatprec)
                 elif isinstance(column, datetime):
                     item = column.strftime(self.datetimefs)
                 else:
@@ -120,16 +139,12 @@ class Table:
                 # Add padding to the actual column width.
                 total_width = width + self.padding
                 # Build formatstring depending on alignment.
-                if self.align == 'l':
-                    format_str = '{{:<{}}}'.format(total_width)
-                elif self.align == 'r':
-                    format_str = '{{:>{}}}'.format(total_width)
-                elif self.align == 'c':
-                    format_str = '{{:^{}}}'.format(total_width)
-                else:
-                    raise RuntimeError('Wrong alignment string')
-
-                aligned_item = format_str.format(item)
+                try:
+                    align_mark = ALIGNMENT[self.align]
+                except KeyError:
+                    msg = 'Alignment must be l, c, or r (not {!r})'.format(self.align)
+                    raise ValueError(msg)
+                aligned_item = '{:{}{}}'.format(item, align_mark, total_width)
                 aligned_column.append(aligned_item)
             aligned_columns.append(aligned_column)
         return aligned_columns
@@ -164,10 +179,17 @@ class Table:
             footer.append(item)
         return footer
 
+    def append(self, row):
+        self.data.append(row)
+
+    def extend(self, rows):
+        self.data.extend(rows)
+
+    def insert(self, index, row):
+        self.data.insert(index, row)
+
+    def __len__(self):
+        return len(self.data)
+
     def __str__(self):
-        if self.align != 'l':
-            table = [''.join(line) for line in self.data]
-        else:
-            table = [''.join(line).strip() for line in self.data]
-        table = '\n'.join(table)
-        return table
+        return self._render()
